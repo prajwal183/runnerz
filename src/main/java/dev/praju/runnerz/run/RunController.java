@@ -12,6 +12,8 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.server.ResponseStatusException;
 
+import jakarta.validation.Valid;
+
 import java.util.List;
 import java.util.Optional;
 
@@ -42,13 +44,13 @@ public class RunController {
 
   @PostMapping("")
   @ResponseStatus(HttpStatus.CREATED)
-  public Run addRun(@RequestBody Run run) {
+  public Run addRun(@Valid @RequestBody Run run) {
     runRepository.addRun(run);
     return run;
   }
 
   @PutMapping("/{id}")
-  public Run updateRun(@RequestBody Run run, @PathVariable int id) {
+  public Run updateRun(@Valid @RequestBody Run run, @PathVariable int id) {
     Optional<Run> runToUpdate = runRepository.findById(id);
     if (runToUpdate.isEmpty()) {
       throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Run not found.");
